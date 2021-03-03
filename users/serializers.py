@@ -1,7 +1,7 @@
 from rest_framework import serializers 
 from .models import User
 
-class TinyUserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta: 
         model = User 
-        fields = ("superhost", "username")
+        exclude = ("groups", "user_permissions", "password", "last_login", "is_superuser", "is_active", "is_staff", "date_joined", "favs")
