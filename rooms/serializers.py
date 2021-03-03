@@ -25,7 +25,13 @@ class WriteRoomSerializer(serializers.Serializer):
     check_out = serializers.TimeField(default="00:00:00")
     instant_book = serializers.BooleanField(default=False)
 
-
     def create(self, validated_data):
-        
         return Room.objects.create(**validated_data)
+
+    def validate(self, data):
+        check_in  = data.get("check_in")
+        check_out = data.get("check_in")
+        if check_in == check_out: 
+            raise serializers.ValidationError("Not enough time between changes")
+        else: 
+            return data
