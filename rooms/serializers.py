@@ -5,7 +5,7 @@ from users.serializers import UserSerializer
 
 class RoomSerializer(serializers.ModelSerializer):
 
-    user = UserSerializer()
+    user = UserSerializer(read_only=True)
     is_favs = serializers.SerializerMethodField()
 
     class Meta:
@@ -19,7 +19,7 @@ class RoomSerializer(serializers.ModelSerializer):
             check_out = data.get("check_in", self.instance.check_out)
         else:
             check_in = data.get("check_in")
-            check_out = data.get("check_in")
+            check_out = data.get("check_out")
 
         if check_in == check_out:
             raise serializers.ValidationError(
@@ -33,3 +33,9 @@ class RoomSerializer(serializers.ModelSerializer):
             if user.is_authenticated: 
                 return obj in user.favs.all()
         return True
+
+    def create(self, validated_data):
+        request = self.context.get("request")
+        room = Room.objects.create(**validated_data, user=request.user) 
+        return room 
+        
