@@ -19,7 +19,7 @@ class ReadUserSerializer(serializers.ModelSerializer):
     class Meta: 
         model = User 
         exclude = ("groups", "user_permissions", "password", "last_login",
-                   "is_superuser", "is_active", "is_staff", "date_joined")
+                   "is_superuser", "is_active", "is_staff", "date_joined", "favs")
 
 
 class WriteUserSerializer(serializers.ModelSerializer):
